@@ -1,0 +1,8 @@
+
+- Bases de datos:
+    - Facturacion    
+    - RecursosHumanos
+
+- Informacion para rellenar DB 
+- Configurar entorno Pentaho en VM 
+
