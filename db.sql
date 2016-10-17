@@ -11,7 +11,7 @@ CREATE TABLE Ciudades (
     Id_depto int not null, 
     Nom_ciudad varchar(50) not null, 
     Poblacion int not null,
-    Clasificacion varchar(50),
+    Clasificacion varchar(50)
 )
 
 CREATE TABLE Rubros (
@@ -24,10 +24,10 @@ CREATE TABLE Clientes (Id_cliente serial primary key,
     Direccion varchar(50) not null,
     Telefono varchar(50) not null,
     Ciudad int references Ciudades(Id_ciudad), /*FK*/
-    Departamento references Departamentoreferences(Id_depto),/*FK*/
+    Departamento int references Departamentoreferences(Id_depto),/*FK*/
     Rubro varchar(50) not null,
     Categoria varchar(50) not null,
-    Fecha alta date not null
+    Fecha_alta date not null
  )
 
 CREATE TABLE Facturas (Factura serial primary key,
@@ -35,12 +35,12 @@ CREATE TABLE Facturas (Factura serial primary key,
      Cliente int references Clientes(Id_cliente), /*FK*/
      Vendedor int references Vendedores(Id_vendedor) /*FK*/
 )
-CREATE TABLE Registros-Facturas (Factura serial primary key,
-     Articulo int not null, /*double pk*/
+CREATE TABLE Registros-Facturas (Factura serial not null,
+     Articulo serial not null, /*double pk*/
      Importe int not null,
      Unidades int not null)
 
-ALTER TABLE Registros-Facturas ADD CONSTRAINT "ID_reg_fact" PRIMARY KEY (Facturacion, Articulo);
+ALTER TABLE Registros-Facturas ADD CONSTRAINT "ID_reg_fact" PRIMARY KEY (Factura, Articulo);
 
 
 CREATE TABLE Articulos (Id_articulo serial primary key,
@@ -51,8 +51,8 @@ CREATE TABLE Productos (Id_producto serial primary key,
     Id_familia int not null,
     Id_duracion int not null)
 
-CREATE TABLE Codigos (Tipo serial primary key,
-    Codigo int not null, /*double pk*/
+CREATE TABLE Codigos (Tipo serial not null,
+    Codigo serial not null, /*double pk*/
     Descripcion varchar(50) not null) 
 
 ALTER TABLE Codigos ADD CONSTRAINT "ID_codigos" PRIMARY KEY (Tipo, Codigo);
