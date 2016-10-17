@@ -64,3 +64,9 @@ CREATE TABLE Vendedores (Id_vendedor serial primary key,
      Telefono varchar(50) not null,
      Especialidad varchar(50) not null
 ) 
+
+// Recursos humanos
+
+Empleado(legajo serial primary key, nombre varchar(50) not null, apellido varchar(50) not null, direccion varchar(50) not null, sueldo int not null, horas_capacitacion int not null, fecha_ingreso date not null, id_local int not null)
+Telefono_empleado(legajo int not null, telefono_empleado varchar(50) not null)
+
