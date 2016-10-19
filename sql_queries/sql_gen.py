@@ -110,6 +110,10 @@ def get_familia():
 def get_duracion():
     return random.randint(0,30)
 
+@deco_str
+def get_date():
+    return "%s-%s-%s" % (random.randint(1970-2016),random.randint(1,12), random.randint(1,28) )
+
 
 tables = {
         'Departamentos':
@@ -144,13 +148,13 @@ tables = {
                 'Departamento': get_departamento, 
                 'Rubro': random_str,
                 'Categoria': random_str,
-                'Fecha_alta': PLACEHOLDER
+                'Fecha_alta': get_fecha
                 }
             ),
         'Facturas':
             (FACT,
                 {
-                'Fecha': PLACEHOLDER,
+                'Fecha': get_fecha,
                 'Cliente': get_cliente,
                 'Vendedor': get_vendedor
                 }
@@ -202,7 +206,7 @@ tables = {
                 'direccion': get_direccion,
                 'sueldo': get_sueldo,
                 'horas_capacitacion': get_horas_cap,
-                'fecha_ingreso': PLACEHOLDER,
+                'fecha_ingreso': get_fecha,
                 'id_local': get_local
                 }
             ),
