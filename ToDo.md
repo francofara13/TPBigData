@@ -1,5 +1,6 @@
 
 ****TODO****
+- Informe en .odt:
 
 - Generar consultas para crear Bases de datos (facturacion y rrhh):
     - ~~Diseñar~~
