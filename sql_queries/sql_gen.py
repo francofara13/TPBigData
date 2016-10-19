@@ -49,6 +49,9 @@ def get_calif():
 def get_ciudad():
     return random.randint(0,CIUD)
 
+def get_departamento():
+    return random.randint(0, DEPT)
+
 def get_poblacion():
     return random.randint(10000, 500000)
 
@@ -97,6 +100,17 @@ def get_local():
 def get_legajo():
     return random.randint(0, EMPL)
 
+@deco_str
+def get_descripcion():
+    return "Descripcion "*8
+
+def get_familia():
+    return random.randint(0,40)
+
+def get_duracion():
+    return random.randint(0,30)
+
+
 tables = {
         'Departamentos':
             (DEPT,
@@ -127,7 +141,7 @@ tables = {
                 'Direccion': get_direccion,
                 'Telefono': get_telefono,
                 'Ciudad': get_ciudad, #
-                'Departamento': PLACEHOLDER, #LA PUTA MADRE
+                'Departamento': get_departamento, 
                 'Rubro': random_str,
                 'Categoria': random_str,
                 'Fecha_alta': PLACEHOLDER
@@ -144,7 +158,7 @@ tables = {
         'Registros-Facturas':
             (REGF,
                 {
-                'Factura': get_factura, #Doble clave primaria
+                'Factura': get_factura,
                 'Articulo': get_articulo,
                 'Importe': get_importe,
                 'Unidades': get_unidades
@@ -160,16 +174,14 @@ tables = {
         'Productos':
             (PROD, 
                 {
-                'Id_familia': PLACEHOLDER,
-                'Id_duracion': PLACEHOLDER
+                'Id_familia': get_familia,
+                'Id_duracion': get_duracion
                 }
             ),
         'Codigos':
             (CODI,
                 {
-                'Tipo': PLACEHOLDER, #Dobl clave primaria
-                'Codigo': PLACEHOLDER,
-                'Descripcion': PLACEHOLDER
+                'Descripcion': get_descripcion
                 }
             ),
         'Vendedores':
