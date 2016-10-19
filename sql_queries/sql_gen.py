@@ -206,7 +206,7 @@ tables = {
 def insert_str(table, columns, values):
         col_str = ', '.join(columns)
         val_str = ', '.join(values)
-        return INSERT % (table, col_str, val_str)
+        return INSERT % (table, col_str, val_str) +'\n'
 
 for table in tables.keys():
     COUNTER = 0
