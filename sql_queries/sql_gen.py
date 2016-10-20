@@ -206,7 +206,7 @@ tables = {
         'Articulos':
             (ARTI,
              {
-                'Id_articulo':(lambda: pk("Productos")),
+                'Id_articulo':(lambda: pk("Articulos")),
                 'Id_producto': (lambda: fk("Productos.Id_producto")),
                 'Id_tamano': get_tam
              },

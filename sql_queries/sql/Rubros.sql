@@ -1,0 +1,10 @@
+INSERT INTO Rubros (Nom_rubro, Id_rubro) VALUES ("ZZACH", 1);
+INSERT INTO Rubros (Nom_rubro, Id_rubro) VALUES ("1VD8Y", 2);
+INSERT INTO Rubros (Nom_rubro, Id_rubro) VALUES ("D5FJA", 3);
+INSERT INTO Rubros (Nom_rubro, Id_rubro) VALUES ("M5FCN", 4);
+INSERT INTO Rubros (Nom_rubro, Id_rubro) VALUES ("NOM3K", 5);
+INSERT INTO Rubros (Nom_rubro, Id_rubro) VALUES ("DIZW4", 6);
+INSERT INTO Rubros (Nom_rubro, Id_rubro) VALUES ("XWF1F", 7);
+INSERT INTO Rubros (Nom_rubro, Id_rubro) VALUES ("OQAJE", 8);
+INSERT INTO Rubros (Nom_rubro, Id_rubro) VALUES ("E7WNV", 9);
+INSERT INTO Rubros (Nom_rubro, Id_rubro) VALUES ("8L94F", 10);

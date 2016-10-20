@@ -1,0 +1,12 @@
+INSERT INTO Departamentos (Id_depto, Nom_depto, Zona) VALUES (1, 1, "algo");
+INSERT INTO Departamentos (Id_depto, Nom_depto, Zona) VALUES (2, 2, "algo");
+INSERT INTO Departamentos (Id_depto, Nom_depto, Zona) VALUES (3, 3, "algo");
+INSERT INTO Departamentos (Id_depto, Nom_depto, Zona) VALUES (4, 4, "algo");
+INSERT INTO Departamentos (Id_depto, Nom_depto, Zona) VALUES (5, 5, "algo");
+INSERT INTO Departamentos (Id_depto, Nom_depto, Zona) VALUES (6, 6, "algo");
+INSERT INTO Departamentos (Id_depto, Nom_depto, Zona) VALUES (7, 7, "algo");
+INSERT INTO Departamentos (Id_depto, Nom_depto, Zona) VALUES (8, 8, "algo");
+INSERT INTO Departamentos (Id_depto, Nom_depto, Zona) VALUES (9, 9, "algo");
+INSERT INTO Departamentos (Id_depto, Nom_depto, Zona) VALUES (10, 10, "algo");
+INSERT INTO Departamentos (Id_depto, Nom_depto, Zona) VALUES (11, 11, "algo");
+INSERT INTO Departamentos (Id_depto, Nom_depto, Zona) VALUES (12, 12, "algo");
