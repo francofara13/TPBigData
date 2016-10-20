@@ -1,6 +1,7 @@
 import random, string
 from copy import copy
 from people.personas import Persona
+from datetime import date
 
 RESULT = "sql/"
 
@@ -31,7 +32,7 @@ def PLACEHOLDER():
 
 def deco_str(func):
     def wrapper():
-        return '"%s"' % (func())
+        return "'%s'" % (func())
     return wrapper
 
 @deco_str
@@ -104,10 +105,9 @@ def get_local():
 def get_legajo():
     return random.randint(0, EMPL)
 
-from datetime import date
+@deco_str
 def get_date():
     return date(random.randint(2010, 2016), random.randint(1,12), random.randint(1,28)).isoformat()
-
 
 @deco_str
 def get_descripcion():
@@ -143,7 +143,7 @@ tables = {
              {
                 'Id_ciudad': (lambda: pk("Ciudades")),
                 'Id_depto': (lambda: fk("Departamentos.Id_depto")),
-                'Nom_ciudad': (lambda: Persona().localidad),
+                'Nom_ciudad': (lambda: "'%s'" % Persona().localidad),
                 'Poblacion': get_poblacion,
                 'Clasificacion': get_calif
              },
@@ -153,7 +153,7 @@ tables = {
             (VEND,
              {
                 'Id_vendedor': (lambda: pk("Vendedores")),
-                'Nombre': (lambda: "%s %s" % (Persona().nombre, Persona().apellido)),
+                'Nombre': (lambda: "'%s %s'" % (Persona().nombre, Persona().apellido)),
                 'Direccion': get_direccion,
                 'Telefono': get_telefono,
                 'Especialidad': random_str
@@ -172,7 +172,7 @@ tables = {
             (CLIE,
              {
                 'Id_cliente': (lambda: pk("Clientes")),
-                'Nombre': (lambda: "%s %s" % (Persona().nombre, Persona().apellido)),
+                'Nombre': (lambda: "'%s %s'" % (Persona().nombre, Persona().apellido)),
                 'Direccion': get_direccion,
                 'Telefono': get_telefono,
                 'Ciudad': (lambda: fk("Ciudades.Id_ciudad")), #v
@@ -285,16 +285,16 @@ def gen_sql():
                 for col in cols:
                     if table == 'Empleado' and col in ("nombre", "apellido"):
                         if col == "nombre":
-                            vvv = vux[0]
+                            vvv = "%s'" % vux[0]
                         else:
-                            vvv = vux[1]
+                            vvv = "'%s" % vux[1]
                     else:
                         n[col] = columns[col]()
                         vvv = n[col]
 
                     values.append(str(vvv))
-                all.append(n)
 
+                all.append(n)
                 new_insert = insert_str(table, columns, values)
 
                 sql_file.write(new_insert)
