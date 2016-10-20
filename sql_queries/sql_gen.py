@@ -287,6 +287,8 @@ def gen_sql():
                         if col == "nombre":
                             vvv = "%s'" % vux[0]
                         else:
+                            if len(vux) > 1:
+                                vux[1] = " ".join(vux[1:])
                             vvv = "'%s" % vux[1]
                     else:
                         n[col] = columns[col]()

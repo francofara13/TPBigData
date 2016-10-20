@@ -1,5 +1,7 @@
 /*Facturacion y ventas*/
 
+CREATE DATABASE Facturacion_venta ENCODING 'utf-8';
+
 CREATE TABLE Departamentos (
     Id_depto int primary key,
     Nom_depto int NULL,
@@ -38,14 +40,16 @@ CREATE TABLE Facturas (Factura int primary key,
 CREATE TABLE Registros_Facturas (Factura int not null,
     Articulo int not null, /*double pk*/
     Importe int not null,
-    Unidades int not null)
+    Unidades int not null
+);
 
 ALTER TABLE Registros-Facturas ADD CONSTRAINT "ID_reg_fact" PRIMARY KEY (Factura, Articulo);
 
 
 CREATE TABLE Articulos (Id_articulo int primary key,
     Id_producto int not null,/*FK*/
-    Id_tamaño int not null)
+    Id_tamaño int not null
+);
 
 CREATE TABLE Productos (Id_producto int primary key,
     Id_familia int not null,
@@ -54,7 +58,8 @@ CREATE TABLE Productos (Id_producto int primary key,
 CREATE TABLE Codigos (
     Tipo int not null,
     Codigo int not null, /*double pk*/
-    Descripcion varchar(50) not null) 
+    Descripcion varchar(50) not null 
+);
 
 ALTER TABLE Codigos ADD CONSTRAINT "ID_codigos" PRIMARY KEY (Tipo, Codigo);
 
@@ -68,6 +73,7 @@ CREATE TABLE Vendedores (
 ); 
 
 /* Recursos humanos */
+CREATE DATABASE Recursos_Humanos ENCODING 'utf-8';
 
 CREATE TABLE Empleado (
     legajo int primary key,
