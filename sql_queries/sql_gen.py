@@ -1,20 +1,24 @@
 import random, string
+from copy import copy
+from people.personas import Persona
+
+RESULT = "sql/"
 
 INSERT = "INSERT INTO %s (%s) VALUES (%s);"
 COUNTER = 0
 
 #REGISTROS POR TABLA:
-DEPT = 15
-CIUD = 1000
-RUBR = 30
-CLIE = 3000
-FACT = 10000
-REGF = 15000
+DEPT = 12
+CIUD = 50
+RUBR = 10
+CLIE = 2000
+FACT = 40000
+REGF = FACT * 8
 ARTI = 200
-PROD = 200
-CODI = 30 #?
+PROD = 40
+CODI = 40 #?
 VEND = 200
-EMPL = 200
+EMPL = VEND
 TELE = 230
 
 def INC_COUNTER():
@@ -100,6 +104,11 @@ def get_local():
 def get_legajo():
     return random.randint(0, EMPL)
 
+from datetime import date
+def get_date():
+    return date(random.randint(2010, 2016), random.randint(1,12), random.randint(1,28)).isoformat()
+
+
 @deco_str
 def get_descripcion():
     return "Descripcion "*8
@@ -110,108 +119,141 @@ def get_familia():
 def get_duracion():
     return random.randint(0,30)
 
+exclude = {}
+def fk(path, exclude=False):
+    a, b = path.split(".")
+    return random.choice(tables[a][2])[b]
+
+def pk(f):
+    return len(tables[f][2]) + 1
+
 
 tables = {
         'Departamentos':
             (DEPT,
-                {
+             {
+                'Id_depto': (lambda: pk("Departamentos")),
                 'Nom_depto': INC_COUNTER,
                 'Zona': get_zone
-                }
-            ),
+             },
+             []
+        ),
         'Ciudades':
             (CIUD,
-                {
-                'Id_depto': get_depto,
-                'Nom_ciudad': random_str ,
+             {
+                'Id_ciudad': (lambda: pk("Ciudades")),
+                'Id_depto': (lambda: fk("Departamentos.Id_depto")),
+                'Nom_ciudad': (lambda: Persona().localidad),
                 'Poblacion': get_poblacion,
                 'Clasificacion': get_calif
-                }
-            ),
-        'Rubros':
-            (RUBR,
-                {
-                'Nom_rubro': random_str
-                }
-            ),
-        'Clientes':
-            (CLIE,
-                {
-                'Nombre': random_str,
-                'Direccion': get_direccion,
-                'Telefono': get_telefono,
-                'Ciudad': get_ciudad, #
-                'Departamento': get_departamento, 
-                'Rubro': random_str,
-                'Categoria': random_str,
-                'Fecha_alta': PLACEHOLDER
-                }
-            ),
-        'Facturas':
-            (FACT,
-                {
-                'Fecha': PLACEHOLDER,
-                'Cliente': get_cliente,
-                'Vendedor': get_vendedor
-                }
-            ),
-        'Registros-Facturas':
-            (REGF,
-                {
-                'Factura': get_factura,
-                'Articulo': get_articulo,
-                'Importe': get_importe,
-                'Unidades': get_unidades
-                }
-            ),
-        'Articulos':
-            (ARTI,
-                {
-                'Id_producto': get_producto,
-                'Id_tamano': get_tam
-                }
-            ),
-        'Productos':
-            (PROD, 
-                {
-                'Id_familia': get_familia,
-                'Id_duracion': get_duracion
-                }
-            ),
-        'Codigos':
-            (CODI,
-                {
-                'Descripcion': get_descripcion
-                }
+             },
+             []
             ),
         'Vendedores':
             (VEND,
-                {
-                'Nombre': random_str,
+             {
+                'Id_vendedor': (lambda: pk("Vendedores")),
+                'Nombre': (lambda: "%s %s" % (Persona().nombre, Persona().apellido)),
                 'Direccion': get_direccion,
                 'Telefono': get_telefono,
                 'Especialidad': random_str
-                }
+             },
+             []
+            ),
+        'Rubros':
+            (RUBR,
+             {
+                'Id_rubro':(lambda: pk("Rubros")),
+                'Nom_rubro': random_str
+             },
+             []
+            ),
+        'Clientes':
+            (CLIE,
+             {
+                'Id_cliente': (lambda: pk("Clientes")),
+                'Nombre': (lambda: "%s %s" % (Persona().nombre, Persona().apellido)),
+                'Direccion': get_direccion,
+                'Telefono': get_telefono,
+                'Ciudad': (lambda: fk("Ciudades.Id_ciudad")), #v
+                'Departamento': (lambda: fk("Departamentos.Id_depto")),
+                'Rubro': random_str,
+                'Categoria': random_str,
+                'Fecha_alta': get_date
+             },
+             []
+            ),
+        'Facturas':
+            (FACT,
+             {
+                'Factura': (lambda: pk("Facturas")),
+                'Fecha': get_date,
+                'Cliente': (lambda: fk("Clientes.Id_cliente")),
+                'Vendedor':(lambda: fk("Vendedores.Id_vendedor")),
+             },
+             []
+            ),
+        'Productos':
+            (PROD,
+             {
+                'Id_producto':(lambda: pk("Productos")),
+                'Id_familia': get_familia,
+                'Id_duracion': get_duracion
+             },
+             []
+            ),
+
+        'Articulos':
+            (ARTI,
+             {
+                'Id_articulo':(lambda: pk("Productos")),
+                'Id_producto': (lambda: fk("Productos.Id_producto")),
+                'Id_tamano': get_tam
+             },
+             []
+            ),
+
+        'Registros_Facturas':
+            (REGF,
+             {
+                'Factura': (lambda: fk("Facturas.Factura")),
+                'Articulo': (lambda: fk("Articulos.Id_articulo")),
+                'Importe': get_importe,
+                'Unidades': get_unidades,
+             },
+             []
+            ),
+        'Codigos':
+            (CODI,
+             {
+                'Tipo':(lambda: pk("Codigos")),
+                'Codigo': (lambda: pk("Codigos")),
+                'Descripcion': get_descripcion
+             },
+             []
             ),
         #RRHH
         'Empleado':
-            (EMPL,
-                {
-                'nombre': random_str,
-                'apellido': random_str,
+            (VEND,
+             {
+                'legajo': (lambda: pk("Empleado")),
+                'nombre': '',
+                'apellido': '',
                 'direccion': get_direccion,
                 'sueldo': get_sueldo,
                 'horas_capacitacion': get_horas_cap,
-                'fecha_ingreso': PLACEHOLDER,
+                'fecha_ingreso': get_date,
                 'id_local': get_local
-                }
+            },
+            []
             ),
         'Telefono_empleado':
             (TELE,
-                {
-                'legajo': get_legajo,
+             {
+                'legajo': (lambda: pk("Empleado")),
                 'telefono_empleado': get_telefono
-                }
+             },
+             []
             )
         }
 
@@ -220,17 +262,47 @@ def insert_str(table, columns, values):
         val_str = ', '.join(values)
         return INSERT % (table, col_str, val_str) +'\n'
 
-for table in tables.keys():
-    COUNTER = 0
-    with open('%s.sql'%(table), 'w+a') as sql_file:
-        cant = tables[table][0]
-        columns = tables[table][1]
-        for i in range(cant):
-            values = []
-            for col in columns.keys():
-                values.append(str( columns[col]()))
 
-            new_insert = insert_str(table, columns, values)
+def gen_sql():
+    vendedores = []
+    tablas = ['Departamentos', 'Ciudades', 'Clientes', 'Productos', 'Articulos', 'Vendedores', 'Facturas', 'Empleado', 'Registros_Facturas', 'Rubros', 'Codigos', 'Telefono_empleado']
+    for table in tablas:
+        COUNTER = 0
+        with open('%s%s.sql' % (RESULT, table), 'w+a') as sql_file:
+            cant, columns, all = tables[table][0], tables[table][1], tables[table][2]
+            cols = columns.keys()
+            if table == 'Empleado':
+                x = cols.pop(cols.index('legajo'))
+                cols = [x] + cols
 
-            sql_file.write(new_insert)
+            for i in range(cant):
+                if table == 'Empleado':
+                    vux = vendedores.pop()
+                    vux = vux.split(" ")
+
+                n = {}
+                values = []
+                for col in cols:
+                    if table == 'Empleado' and col in ("nombre", "apellido"):
+                        if col == "nombre":
+                            vvv = vux[0]
+                        else:
+                            vvv = vux[1]
+                    else:
+                        n[col] = columns[col]()
+                        vvv = n[col]
+
+                    values.append(str(vvv))
+                all.append(n)
+
+                new_insert = insert_str(table, columns, values)
+
+                sql_file.write(new_insert)
+
+        if table == "Vendedores":
+            vendedores = [i["Nombre"] for i in tables["Vendedores"][2]]
+
+
+
+gen_sql()
 

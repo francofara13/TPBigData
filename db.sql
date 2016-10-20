@@ -35,7 +35,7 @@ CREATE TABLE Facturas (Factura serial primary key,
     Cliente int references Clientes(Id_cliente), /*FK*/
     Vendedor int references Vendedores(Id_vendedor) /*FK*/
 )
-CREATE TABLE Registros-Facturas (Factura serial not null,
+CREATE TABLE Registros_Facturas (Factura serial not null,
     Articulo serial not null, /*double pk*/
     Importe int not null,
     Unidades int not null)
